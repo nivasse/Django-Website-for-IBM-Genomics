@@ -1,0 +1,51 @@
+<table>
+    <tr>
+        <th>Company Name</th>
+        <th>Website</th>
+	<th>HQ Phone No:</th>
+	<th>Email ID</th>
+	<th>Description</th>
+	<th>SIC Code</th>
+	<th>Sales</th>
+        <th>IT Budget</th>
+        <th>Sales Growth</th>
+	<th>Fiscal Year End</th>
+	<th>Company Size</th>
+	<th>Fortune Rank</th>
+	<th>HQ Street Address</th>
+        <th>HQ City</th>
+        <th>HQ State</th>
+	<th>HQ Zipcode</th>
+	<th>Public/Private</th>
+	<th>Dnus No:</th>
+	<th>Duns Parent</th>
+	<th>Twitter URL<th>
+	<th>LinkedIn URL</th>
+    </tr>
+    {% for item in order_alpha %}
+    <tr> 
+        <td>{{ item.co_name }}</td>
+        <td>{{ item.web_site }}</td>
+	<td>{{ item.hq_phone }}</td>
+	<td>{{ item.co_email }}</td>
+	<td>{{ item.description }}</td>
+	<td>{{ item.sic_code }}</td>
+	<td>{{ item.sales }}</td>
+        <td>{{ item.it_budget }}</td>
+        <td>{{ item.sales_growth }}</td>
+	<td>{{ item.fiscal_year_end }}</td>
+	<td>{{ item.no_employees }}</td>
+	<td>{{ item.fortune_rank }}</td>
+	<td>{{ item.hq_street }}</td>
+        <td>{{ item.hq_city }}</td>
+        <td>{{ item.hq_state }}</td>
+	<td>{{ item.hq_zip }}</td>
+	<td>{{ item.pub_priv }}</td>
+	<td>{{ item.dnus_no }}</td>
+	<td>{{ item.duns_parent }}</td>
+	<td>{{ item.twitter_link }}</td>
+	<td>{{ item.linkedin }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
