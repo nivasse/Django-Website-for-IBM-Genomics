@@ -1,1 +1,2 @@
-# Django-Website-for-IBM-Genomics
+# Django-App-for-IBM-Genomics
+Django App to display a database containing information about the different entities in the Genomics Industry. Creating this Django app was part of a project that aimed at creating a tool to help IBM's Systems and Technology group identify potential customers for their products. It was used to display the data in a logical fashion to the upper management at IBM.
