@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>{{ question.co_name }}</title>
+    <title>{{ award_details.award_title }}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -49,10 +49,10 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="/viewone/">Home</a></li>
-            <li class="active"><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>
+            <li><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>
 	    <li><a href="/viewone/searchpubmed/">Authors (PubMed)</a></li>            
-            <li><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li>
-           </ul>
+            <li class="active"><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li>
+          </ul>
           
         </div><!--/.nav-collapse -->
       </div>
@@ -63,31 +63,38 @@
 
       <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-      <h2 style="margin-bottom: 2px;text-align: left;">{{ question.co_name }}</h2>
-      <p style="text-align: left">{{ question.hq_city }}, {{ question.hq_state }}</p>
+      <h2 style="margin-bottom: 2px;text-align: left;">{{ award_details.award_title }}</h2>
+      <p style="text-align: left">NSF Award No# {{ award_details.award_id }}</p>
       <ul style="list-style: none;font-size:14px;">
-            <li>Size of company: {{ question.no_employees }}</li>
-            <li>HQ Complete Address: {{ question.hq_street }}, {{ question.hq_city }}, {{question.hq_state }} {{ question.hq_zip }}</li> 		<li>Type: {{ question.pub_priv }}</li>
-            <li>Industry: {{ question.sic_code|slice:"5:" }} (SIC CODE:{{ question.sic_code|slice:":4" }})</li>
-            <li>DUNS Number: {{ question.dnus_no }}, Parent DUNS Number: {{ question.duns_parent }}</li>
-	    <li>Description: {{ question.description }}</li>
+            <li>Award Type: {{ award_details.award_instrument }}</li>
+            <li>Start Date : {{ award_details.award_start_date }}</li>
+	    <li>End Date: {{ award_details.award_end_date }}</li>
+            <li>Award Amount to Date: ${{ award_details.award_amount }}</li>
+            <li>Initial Amendment Date: {{ award_details.initial_amendment_date }}</li>
+            <li>Latest Amendment Date: {{ award_details.latest_amendment_date }}</li>
     </ul>
     <ul style="list-style: none;font-size:14px;">
-            <li><h4 style="margin-bottom:2px;">Financial Information</h4></li>
-            <li>Sales: ${% widthratio question.sales 1000000 1 %} million</li>
-            <li>IT Budget: ${{ question.it_budget }} </li>
-            <li>Sales Growth: {{ question.sales_growth }}</li>
-            <li>Fiscal Year End: {{ question.fiscal_year_end }}</li>
-            <li>Fortune 500 Rank: {{ question.fortune_rank }}</li>
+            <li><h4 style="margin-bottom:2px;">Investigators</h4></li>
+            {% for author in authors %}
+	    <li>{{ author.first_name }} {{ author.last_name }} ({{ author.author_role }}) {{ author.email }}</li>
+            {% endfor %}
     </ul>
     <ul style="list-style: none;font-size:14px;">
-            <li><h4 style="margin-bottom:2px;">Contact Information</h4></li>
-            <li>Phone: {{ question.hq_phone }}</li>
-            <li>Email: {{ question.co_email }}</li>
-            <li>LinkedIn: {{ question.linkedin }}</li>
-            <li>Twitter: {{ question.twitter_link }}</li>
+            <li><h4 style="margin-bottom:2px;">Tools Used</h4></li>
+            <li>{{ award_details.gene_tools }}</li>
+    </ul>
+    <ul style="list-style: none;font-size:14px;">
+            <li><h4 style="margin-bottom:2px;">Sponsor</h4></li>
+            <li>{{ award_details.institution_name }}</li>
+            <li>{{ award_details.institution_street_address }}</li>
+            <li>{{ award_details.institution_city }}, {{ award_details.institution_state }}</li>
+            <li>Contact: {{ award_details.institution_phone_number }}</li>
     </ul> 
-      </div>
+    <ul style="list-style: none;font-size:14px;">
+            <li><h4 style="margin-bottom:2px;">Abstract</h4></li>
+            <li>{{ award_details.abstract }}</li>
+    </ul>    
+     </div>
 
    </div><!-- /container -->
 

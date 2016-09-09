@@ -76,6 +76,22 @@ class AuthUserUserPermissions(models.Model):
         unique_together = (('user', 'permission'),)
 
 
+class Authortable1Pubmed(models.Model):
+    author_name = models.CharField(max_length=60, blank=True, null=True)
+    complete_addr = models.TextField(blank=True, null=True)
+    department = models.TextField(blank=True, null=True)
+    institution = models.TextField(blank=True, null=True)
+    city = models.TextField(blank=True, null=True)
+    state = models.TextField(blank=True, null=True)
+    country = models.TextField(blank=True, null=True)
+    tools_used = models.CharField(max_length=30, blank=True, null=True)
+    pmid = models.IntegerField()
+
+    class Meta:
+        managed = False
+        db_table = 'authortable1_pubmed'
+
+
 class AuthortableTest(models.Model):
     author_name = models.CharField(max_length=60, blank=True, null=True)
     complete_addr = models.TextField(blank=True, null=True)
@@ -293,6 +309,45 @@ class NamedCompanies(models.Model):
         db_table = 'named_companies'
 
 
+class NsfawardsAuthors(models.Model):
+    award = models.ForeignKey('NsfawardsTest1', models.DO_NOTHING, blank=True, null=True)
+    first_name = models.CharField(max_length=25, blank=True, null=True)
+    last_name = models.CharField(max_length=25, blank=True, null=True)
+    email = models.CharField(max_length=50, blank=True, null=True)
+    author_role = models.CharField(max_length=50, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nsfawards_authors'
+
+
+class NsfawardsTest1(models.Model):
+    award_title = models.TextField(blank=True, null=True)
+    award_start_date = models.DateField(blank=True, null=True)
+    award_end_date = models.DateField(blank=True, null=True)
+    award_amount = models.IntegerField(blank=True, null=True)
+    award_instrument = models.CharField(max_length=40, blank=True, null=True)
+    organization_code = models.IntegerField(blank=True, null=True)
+    org_directorate = models.CharField(max_length=31, blank=True, null=True)
+    program_manager = models.CharField(max_length=35, blank=True, null=True)
+    abstract = models.TextField(blank=True, null=True)
+    initial_amendment_date = models.DateField(blank=True, null=True)
+    latest_amendment_date = models.DateField(blank=True, null=True)
+    award_id = models.IntegerField(primary_key=True)
+    institution_name = models.CharField(max_length=70, blank=True, null=True)
+    institution_city = models.CharField(max_length=30, blank=True, null=True)
+    institution_zipcode = models.BigIntegerField(blank=True, null=True)
+    institution_phone_number = models.BigIntegerField(blank=True, null=True)
+    institution_street_address = models.CharField(max_length=50, blank=True, null=True)
+    institution_country = models.CharField(max_length=25, blank=True, null=True)
+    institution_state = models.CharField(max_length=20, blank=True, null=True)
+    institution_state_code = models.CharField(max_length=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'nsfawards_test1'
+
+
 class Pharma(models.Model):
     co_name = models.CharField(max_length=250, blank=True, null=True)
     ticker = models.CharField(max_length=25, blank=True, null=True)
@@ -332,18 +387,23 @@ class Pubmed2(models.Model):
         db_table = 'pubmed2'
 
 
-class ResearchTruth(models.Model):
-    name = models.CharField(max_length=250, blank=True, null=True)
-    institution = models.CharField(max_length=250, blank=True, null=True)
-    research_area = models.CharField(max_length=250, blank=True, null=True)
-    tools_used = models.CharField(max_length=25, blank=True, null=True)
-    city = models.CharField(max_length=50, blank=True, null=True)
-    state = models.CharField(max_length=25, blank=True, null=True)
-    email = models.CharField(max_length=200, blank=True, null=True)
+class PubmedidTitles(models.Model):
+    generated_id = models.CharField(max_length=20, blank=True, null=True)
+    title = models.TextField(blank=True, null=True)
+    pmid = models.IntegerField(primary_key=True)
 
     class Meta:
         managed = False
-        db_table = 'research_truth'
+        db_table = 'pubmedid_titles'
+
+
+class Sales(models.Model):
+    co_name = models.CharField(max_length=250, blank=True, null=True)
+    sales = models.DecimalField(max_digits=25, decimal_places=0, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sales'
 
 
 class SecIndex(models.Model):
@@ -365,3 +425,11 @@ class Test(models.Model):
     class Meta:
         managed = False
         db_table = 'test'
+
+
+class TrunkList(models.Model):
+    co_name = models.CharField(max_length=250, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'trunk_list'

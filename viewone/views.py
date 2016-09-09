@@ -1,10 +1,13 @@
 from django.shortcuts import get_object_or_404, get_list_or_404, render
 from django.http import HttpResponse
-from .models import IbmTruth, PubmedAuthor
+from .models import IbmTruth, PubmedAuthor, NsfawardsAuthors, NsfawardsTest1
 from django.template import RequestContext
+from django.db.models import Max,Min
+
+
 # Create your views here.
 
-from .forms import QueryForm, SearchPubmed
+from .forms import QueryForm, SearchPubmed, SearchNsfawards
 
 def index(request):
 	return render(request, 'viewone/index.html')
@@ -28,6 +31,7 @@ def searchpubmed(request):
 	    city = form.cleaned_data['city']
 	    state = form.cleaned_data['state']
 	    tools_used = form.cleaned_data['tools_used']
+	   
 	    search_dict = {}
 	    if author_name:
 		search_dict['author_name__istartswith']=author_name
@@ -47,6 +51,7 @@ def searchpubmed(request):
         else:
             print ("Error")
         return render(request, 'viewone/searchpubmed.html', {'form': form, }, context) 
+
 def searchcompany(request):
 	context = RequestContext(request)
 	form = QueryForm()
@@ -111,4 +116,92 @@ def company(request, co_name):
     question = get_list_or_404(IbmTruth, pk=co_name)
     question = question[0]
     return render(request, 'viewone/company.html', {'question': question})
+
+def nsfawards(request, award_id):
+    award_details = get_object_or_404(NsfawardsTest1, pk=award_id)
+    authors = NsfawardsAuthors.objects.filter(award=award_id)
+    return render(request, 'viewone/nsfawards.html', {'award_details': award_details, 'authors': authors, }) 
+
+def searchnsfawards(request):
+        context = RequestContext(request)
+        form = SearchNsfawards()
+        flag = False
+        context['flag'] = flag
+        if request.method == 'POST':
+            form = SearchNsfawards(data=request.POST)
+            flag = True
+            context['flag'] = flag
+        if form.is_valid():
+	    author_fname = form.cleaned_data['author_fname']
+	    author_lname = form.cleaned_data['author_lname']
+            award_id = form.cleaned_data['award_id']
+            award_amount = form.cleaned_data['award_amount']
+            award_title = form.cleaned_data['award_title']
+            award_abstract = form.cleaned_data['award_abstract']
+            grant_type = form.cleaned_data['grant_type']
+            lower_start_date = form.cleaned_data['lower_start_date']
+            upper_start_date = form.cleaned_data['upper_start_date']
+            lower_end_date = form.cleaned_data['lower_end_date']
+            upper_end_date = form.cleaned_data['upper_end_date']
+            inst_name = form.cleaned_data['inst_name']
+            inst_city = form.cleaned_data['inst_city']
+            inst_state = form.cleaned_data['inst_state']
+            mesh_terms = form.cleaned_data['mesh_terms']	
+	    gene_tools = form.cleaned_data['gene_tools']
+	    gene_techniques = form.cleaned_data['gene_techniques']    
+	
+            #setting initial values for date range
+            act_lower_start_date = NsfawardsTest1.objects.all().aggregate(Min('award_start_date'))['award_start_date__min']
+            act_upper_start_date = NsfawardsTest1.objects.all().aggregate(Max('award_start_date'))['award_start_date__max']
+            act_lower_end_date = NsfawardsTest1.objects.all().aggregate(Min('award_end_date'))['award_end_date__min']
+	    act_upper_end_date = NsfawardsTest1.objects.all().aggregate(Max('award_end_date'))['award_end_date__max']
+            search_dict = {}
+	    author_dict = {}
+            if award_id:
+                search_dict['award_id__exact']=award_id
+            if award_amount:
+		search_dict['award_amount__gte']=award_amount
+	    if award_title:
+                search_dict['award_title__icontains']=award_title+" "   
+            if award_abstract:
+                search_dict['abstract__icontains']=award_abstract+" "
+            if grant_type:
+                search_dict['award_instrument__icontains']=grant_type
+            if inst_name:
+                search_dict['institution_name__icontains']=inst_name
+            if inst_city:
+                search_dict['institution_city__istartswith']=inst_city
+	    if inst_state:
+		search_dict['institution_state__istartswith']=inst_state
+            if lower_start_date:
+		act_lower_start_date=lower_start_date
+	    if upper_start_date:
+		act_upper_start_date=upper_start_date
+	    if lower_end_date:
+		act_lower_end_date=lower_end_date
+	    if upper_end_date:
+		act_upper_end_date=upper_end_date
+            if mesh_terms:
+		search_dict['mesh_terms__icontains'] = mesh_terms
+	    if gene_tools:
+		search_dict['gene_tools__istartswith'] = gene_tools
+	    if gene_techniques:
+		search_dict['gene_techniques__icontains'] = gene_techniques
+	    if author_fname:
+		author_dict['nsfawardsauthors__first_name__istartswith'] = author_fname
+	    if author_lname:
+		author_dict['nsfawardsauthors__last_name__istartswith'] = author_lname   	    
+           
+            search_dict['award_start_date__range']=[act_lower_start_date,act_upper_start_date]
+	    search_dict['award_end_date__range']=[act_lower_end_date,act_upper_end_date]    
+	
+            search_results1 = NsfawardsTest1.objects.filter(**search_dict).order_by('award_id')
+            search_results2 = NsfawardsTest1.objects.filter(**author_dict)
+	    search_results = search_results1 & search_results2
+	    search_results = search_results.order_by('award_id').distinct('award_id')
+
+	    context['search_results']= search_results
+        else:
+            print ("Error")
+        return render(request, 'viewone/searchnsfawards.html', {'form': form, }, context)
 

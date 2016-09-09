@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>{{ question.co_name }}</title>
+    <title>Query Database of NSF Grants</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,54 +44,58 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand active" >IBM Genomics</a>
+          <a class="navbar-brand" >IBM Genomics</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="/viewone/">Home</a></li>
-            <li class="active"><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>
+	    <li><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>
 	    <li><a href="/viewone/searchpubmed/">Authors (PubMed)</a></li>            
-            <li><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li>
-           </ul>
+            <li class="active"><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li>
+          </ul>
           
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
-
-    <div class="container">
-
       <!-- Main component for a primary marketing message or call to action -->
-      <div class="jumbotron">
-      <h2 style="margin-bottom: 2px;text-align: left;">{{ question.co_name }}</h2>
-      <p style="text-align: left">{{ question.hq_city }}, {{ question.hq_state }}</p>
-      <ul style="list-style: none;font-size:14px;">
-            <li>Size of company: {{ question.no_employees }}</li>
-            <li>HQ Complete Address: {{ question.hq_street }}, {{ question.hq_city }}, {{question.hq_state }} {{ question.hq_zip }}</li> 		<li>Type: {{ question.pub_priv }}</li>
-            <li>Industry: {{ question.sic_code|slice:"5:" }} (SIC CODE:{{ question.sic_code|slice:":4" }})</li>
-            <li>DUNS Number: {{ question.dnus_no }}, Parent DUNS Number: {{ question.duns_parent }}</li>
-	    <li>Description: {{ question.description }}</li>
-    </ul>
-    <ul style="list-style: none;font-size:14px;">
-            <li><h4 style="margin-bottom:2px;">Financial Information</h4></li>
-            <li>Sales: ${% widthratio question.sales 1000000 1 %} million</li>
-            <li>IT Budget: ${{ question.it_budget }} </li>
-            <li>Sales Growth: {{ question.sales_growth }}</li>
-            <li>Fiscal Year End: {{ question.fiscal_year_end }}</li>
-            <li>Fortune 500 Rank: {{ question.fortune_rank }}</li>
-    </ul>
-    <ul style="list-style: none;font-size:14px;">
-            <li><h4 style="margin-bottom:2px;">Contact Information</h4></li>
-            <li>Phone: {{ question.hq_phone }}</li>
-            <li>Email: {{ question.co_email }}</li>
-            <li>LinkedIn: {{ question.linkedin }}</li>
-            <li>Twitter: {{ question.twitter_link }}</li>
-    </ul> 
-      </div>
+<form id="search" action="/viewone/searchnsfawards/" method="POST">
+  {% csrf_token %}
+<table style="border-collapse: separate;border-spacing: 0 .25em; padding-left: 2cm;">
+{{ form.as_table }}
+</table>
+{% if flag %}
+<input style="margin-left: 2cm;" type="submit" class="btn btn-primary" value="Update Search (Scroll down for results)" id="search" />
+{% else %}
+<input style="margin-left: 2cm;" type="submit" class="btn btn-primary" value="Search" id="search" />
+{% endif %}
+</form>
 
-   </div><!-- /container -->
-
-
+<p></p>
+{% if flag %}
+	{% if search_results %}
+		<table class="table table-hover" style="width: auto;margin-right: 2 cm;margin-left: 2cm;word-wrap: break-word;">
+    			<tr>
+        			<th>NSF Award#</th>
+        			<th>Award Title</th>
+        			<th>Award Amount to Date</th>
+        			<th>Start Date</th>
+				<th>End Date</th>
+			</tr>
+			{% for item in search_results %}
+    			<tr>
+       			        <td>{{ item.award_id }}</td>
+        			<td><a href="/viewone/{{item.award_id}}/nsfawards/" target="_blank">{{ item.award_title }}</a></td>
+        			<td>${{ item.award_amount }}</td>
+			        <td>{{ item.award_start_date }}</td>
+				<td>{{ item.award_end_date }}</td>
+			</tr>					
+			{% endfor %}	
+		</table>
+	{% else %}
+		<p style="margin-left: 2cm"> No rows match your search.</p>	
+	{% endif %}
+{% endif %}
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
