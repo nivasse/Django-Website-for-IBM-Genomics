@@ -1,13 +1,13 @@
 from django.shortcuts import get_object_or_404, get_list_or_404, render
 from django.http import HttpResponse
-from .models import IbmTruth, PubmedAuthor, NsfawardsAuthors, NsfawardsTest1
+from .models import IbmTruth, PubmedAuthor, NsfawardsAuthors, NsfawardsTest1, HospitalsUsa, StatesUsa
 from django.template import RequestContext
 from django.db.models import Max,Min
 
 
 # Create your views here.
 
-from .forms import QueryForm, SearchPubmed, SearchNsfawards
+from .forms import QueryForm, SearchPubmed, SearchNsfawards, SearchHospitals
 
 def index(request):
 	return render(request, 'viewone/index.html')
@@ -156,6 +156,7 @@ def searchnsfawards(request):
             act_lower_end_date = NsfawardsTest1.objects.all().aggregate(Min('award_end_date'))['award_end_date__min']
 	    act_upper_end_date = NsfawardsTest1.objects.all().aggregate(Max('award_end_date'))['award_end_date__max']
             search_dict = {}
+	    state_dict = {}
 	    author_dict = {}
             if award_id:
                 search_dict['award_id__exact']=award_id
@@ -172,8 +173,9 @@ def searchnsfawards(request):
             if inst_city:
                 search_dict['institution_city__istartswith']=inst_city
 	    if inst_state:
-		search_dict['institution_state__istartswith']=inst_state
-            if lower_start_date:
+            	search_dict['institution_state__istartswith']=inst_state
+		#search_dict['institution_state_code']=inst_state
+	    if lower_start_date:
 		act_lower_start_date=lower_start_date
 	    if upper_start_date:
 		act_upper_start_date=upper_start_date
@@ -197,7 +199,8 @@ def searchnsfawards(request):
 	
             search_results1 = NsfawardsTest1.objects.filter(**search_dict).order_by('award_id')
             search_results2 = NsfawardsTest1.objects.filter(**author_dict)
-	    search_results = search_results1 & search_results2
+	    search_results3 = NsfawardsTest1.objects.filter(**state_dict)
+	    search_results = search_results1 & search_results2 & search_results3
 	    search_results = search_results.order_by('award_id').distinct('award_id')
 
 	    context['search_results']= search_results
@@ -205,3 +208,57 @@ def searchnsfawards(request):
             print ("Error")
         return render(request, 'viewone/searchnsfawards.html', {'form': form, }, context)
 
+def searchhospitals(request):
+        context = RequestContext(request)
+        form = SearchHospitals()
+        flag = False
+        context['flag'] = flag
+        if request.method == 'POST':
+            form = SearchHospitals(data=request.POST)
+            flag = True
+            context['flag'] = flag
+        if form.is_valid():
+            #Accessing the data in cleaned_data
+            name = form.cleaned_data['name']
+            city = form.cleaned_data['city']
+	    county = form.cleaned_data['county']
+            state = form.cleaned_data['state']
+            zipcode = form.cleaned_data['zipcode']
+	    type_hospital = form.cleaned_data['desc']
+	    owner = form.cleaned_data['owner']
+	    trauma = form.cleaned_data['trauma']
+	    min_beds = form.cleaned_data['min_beds']
+	    #max_beds = form.cleaned_data['max_beds']
+	    score = form.cleaned_data['score']
+	    
+            search_dict = {}
+            if name :
+                search_dict['name__istartswith']=name
+            if city :
+                search_dict['city__istartswith']=city
+            if county:
+		search_dict['county__istartswith']=county
+	    if state :
+                search_dict['state__istartswith']=state
+            if zipcode :
+                search_dict['zip__istartswith']=zipcode
+	    if type_hospital:
+		search_dict['type__icontains']=type_hospital
+	    if owner:
+		search_dict['owner__icontains']=owner
+	    if trauma:
+		search_dict['trauma__istartswith']=trauma
+	    if min_beds:
+		search_dict['beds__gte']=min_beds
+	    if score:
+		search_dict['score__gte']=score 
+
+            search_results = HospitalsUsa.objects.filter(**search_dict).order_by('-score').exclude(score__isnull=True)
+            context['search_results']= search_results
+        else:
+            print ("Error")
+        return render(request, 'viewone/searchhospitals.html', {'form': form, }, context)
+
+def hospital(request, hospital_id):
+    hospital = get_object_or_404(HospitalsUsa, pk=hospital_id)
+    return render(request, 'viewone/hospital.html', {'h': hospital})

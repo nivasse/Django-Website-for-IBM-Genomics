@@ -25,6 +25,7 @@ class IbmTruth(models.Model):
     duns_parent = models.CharField(max_length=25, blank=True, null=True)
     twitter_link = models.CharField(max_length=250, blank=True, null=True)
     linkedin = models.CharField(max_length=250, blank=True, null=True)
+    #state_id = models.ForeignKey('StatesUsa', models.DO_NOTHING, blank=True, null=True)
 
     def __str__(self):
 	return self.co_name
@@ -107,6 +108,7 @@ class NsfawardsTest1(models.Model):
     mesh_terms = models.CharField(max_length=2000, blank=True, null=True)
     gene_tools = models.CharField(max_length=500, blank=True, null=True)
     gene_techniques = models.CharField(max_length=2000, blank=True, null=True)
+    state = models.ForeignKey('StatesUsa', models.DO_NOTHING, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -122,3 +124,56 @@ class NsfawardsAuthors(models.Model):
     class Meta:
         managed = False
         db_table = 'nsfawards_authors'
+
+class HospitalsUsa(models.Model):
+    x = models.CharField(max_length=32767, blank=True, null=True)
+    y = models.CharField(max_length=32767, blank=True, null=True)
+    fid = models.CharField(max_length=32767, blank=True, null=True)
+    id = models.CharField(primary_key=True, max_length=32767)
+    name = models.CharField(max_length=32767, blank=True, null=True)
+    address = models.CharField(max_length=32767, blank=True, null=True)
+    address2 = models.CharField(max_length=32767, blank=True, null=True)
+    city = models.CharField(max_length=32767, blank=True, null=True)
+    state = models.CharField(max_length=32767, blank=True, null=True)
+    zip = models.CharField(max_length=32767, blank=True, null=True)
+    zip4 = models.CharField(max_length=32767, blank=True, null=True)
+    telephone = models.CharField(max_length=32767, blank=True, null=True)
+    type = models.CharField(max_length=32767, blank=True, null=True)
+    status = models.CharField(max_length=32767, blank=True, null=True)
+    population = models.DecimalField(max_digits=25, decimal_places=0, blank=True, null=True)
+    county = models.CharField(max_length=32767, blank=True, null=True)
+    countyfips = models.CharField(max_length=32767, blank=True, null=True)
+    country = models.CharField(max_length=32767, blank=True, null=True)
+    latitude = models.CharField(max_length=32767, blank=True, null=True)
+    longtitude = models.CharField(max_length=32767, blank=True, null=True)
+    naics_code = models.CharField(max_length=32767, blank=True, null=True)
+    naics_desc = models.CharField(max_length=32767, blank=True, null=True)
+    source = models.CharField(max_length=32767, blank=True, null=True)
+    source_dat = models.CharField(max_length=32767, blank=True, null=True)
+    val_method = models.CharField(max_length=32767, blank=True, null=True)
+    val_date = models.CharField(max_length=32767, blank=True, null=True)
+    website = models.CharField(max_length=32767, blank=True, null=True)
+    state_id = models.CharField(max_length=32767, blank=True, null=True)
+    alt_name = models.CharField(max_length=32767, blank=True, null=True)
+    st_fips = models.CharField(max_length=32767, blank=True, null=True)
+    owner = models.CharField(max_length=32767, blank=True, null=True)
+    ttl_staff = models.CharField(max_length=32767, blank=True, null=True)
+    beds = models.DecimalField(max_digits=25, decimal_places=0, blank=True, null=True)
+    trauma = models.CharField(max_length=32767, blank=True, null=True)
+    helipad = models.CharField(max_length=32767, blank=True, null=True)
+    date_created = models.CharField(max_length=32767, blank=True, null=True)
+    score = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    #state_id = models.ForeignKey('StatesUsa', models.DO_NOTHING, blank=True, null=True)	    
+
+    class Meta:
+        managed = False
+        db_table = 'hospitals_usa'
+
+class StatesUsa(models.Model):
+    state_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    code = models.CharField(max_length=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'states_usa'

@@ -52,6 +52,7 @@
 	    <li class="active"><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>            
             <li><a href="/viewone/searchpubmed/">Authors (PubMed)</a></li>
             <li><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li>  
+	    <li><a href="/viewone/searchhospitals/">Hospitals</a><li>
 	</ul>
           
         </div><!--/.nav-collapse -->
@@ -74,6 +75,12 @@
 <p></p>
 {% if flag %}
 	{% if search_results %}
+		<button style="margin-left: 2cm;" onclick="myFunction()">Print this page</button></li>
+		<script>
+		function myFunction() {
+		    window.print();
+		}
+		</script>
 		<table class="table table-hover" style="width: 90%;margin-right: 2 cm;margin-left: 2cm;">
     			<tr>
         			<th>Company Name</th>

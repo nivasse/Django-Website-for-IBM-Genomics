@@ -52,6 +52,7 @@
             <li class="active"><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>
 	    <li><a href="/viewone/searchpubmed/">Authors (PubMed)</a></li>            
             <li><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li>
+	    <li><a href="/viewone/searchhospitals/">Hospitals</a><li>
            </ul>
           
         </div><!--/.nav-collapse -->
@@ -87,6 +88,16 @@
             <li>LinkedIn: {{ question.linkedin }}</li>
             <li>Twitter: {{ question.twitter_link }}</li>
     </ul> 
+
+
+<ul style="list-style: none;font-size:14px;">
+<li><button onclick="myFunction()">Print this page</button></li>
+</ul>
+<script>
+function myFunction() {
+    window.print();
+}
+</script>
       </div>
 
    </div><!-- /container -->

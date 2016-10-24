@@ -10,6 +10,26 @@ from __future__ import unicode_literals
 from django.db import models
 
 
+class AbsAwardid(models.Model):
+    abs_number = models.IntegerField(blank=True, null=True)
+    award = models.CharField(max_length=25, blank=True, null=True)
+    award_id = models.IntegerField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'abs_awardid'
+
+
+class AbsKeywords(models.Model):
+    abs_number = models.IntegerField(blank=True, null=True)
+    dic = models.CharField(max_length=250, blank=True, null=True)
+    facet = models.CharField(max_length=250, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'abs_keywords'
+
+
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=80)
 
@@ -86,6 +106,7 @@ class Authortable1Pubmed(models.Model):
     country = models.TextField(blank=True, null=True)
     tools_used = models.CharField(max_length=30, blank=True, null=True)
     pmid = models.IntegerField()
+    author_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -108,6 +129,25 @@ class AuthortableTest(models.Model):
         db_table = 'authortable_test'
 
 
+class BusinesspatternsZipcodeUsa(models.Model):
+    geo_id = models.CharField(max_length=32767, blank=True, null=True)
+    geo_id2 = models.CharField(max_length=32767, blank=True, null=True)
+    geo_displaylabel = models.CharField(max_length=32767, blank=True, null=True)
+    naics_id = models.CharField(max_length=32767, blank=True, null=True)
+    naic_sectorinfo = models.CharField(max_length=32767, blank=True, null=True)
+    year_id = models.CharField(max_length=32767, blank=True, null=True)
+    estab = models.CharField(max_length=32767, blank=True, null=True)
+    emp = models.CharField(max_length=32767, blank=True, null=True)
+    payqtr1 = models.CharField(max_length=32767, blank=True, null=True)
+    payann = models.CharField(db_column='PAYANN', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    payann_simplified = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    cbp_score = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'businesspatterns_zipcode_usa'
+
+
 class CikList(models.Model):
     co_name = models.CharField(max_length=1000, blank=True, null=True)
     cik_no = models.DecimalField(max_digits=25, decimal_places=0, blank=True, null=True)
@@ -115,6 +155,87 @@ class CikList(models.Model):
     class Meta:
         managed = False
         db_table = 'cik_list'
+
+
+class CitiesPopulationUsa(models.Model):
+    sumlev = models.CharField(db_column='SUMLEV', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    state = models.CharField(db_column='STATE', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    county = models.CharField(db_column='COUNTY', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    place = models.CharField(db_column='PLACE', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    cousub = models.CharField(db_column='COUSUB', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    concit = models.CharField(db_column='CONCIT', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    primgeo_flag = models.CharField(db_column='PRIMGEO_FLAG', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    funcstat = models.CharField(db_column='FUNCSTAT', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    name = models.CharField(db_column='NAME', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    stname = models.CharField(db_column='STNAME', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    census2010pop = models.CharField(db_column='CENSUS2010POP', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    estimatesbase2010 = models.CharField(db_column='ESTIMATESBASE2010', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    popestimate2010 = models.CharField(db_column='POPESTIMATE2010', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    popestimate2011 = models.CharField(db_column='POPESTIMATE2011', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    popestimate2012 = models.CharField(db_column='POPESTIMATE2012', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    popestimate2013 = models.CharField(db_column='POPESTIMATE2013', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    popestimate2014 = models.CharField(db_column='POPESTIMATE2014', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    popestimate2015 = models.CharField(db_column='POPESTIMATE2015', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    population_score = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'cities_population_usa'
+
+
+class CitiesUsa(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=32767, blank=True, null=True)
+    state_id = models.IntegerField(blank=True, null=True)
+    state = models.CharField(max_length=32767, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'cities_usa'
+
+
+class ClinTrials(models.Model):
+    nct_no = models.CharField(max_length=25, blank=True, null=True)
+    title = models.CharField(max_length=1000, blank=True, null=True)
+    recruitment = models.CharField(max_length=250, blank=True, null=True)
+    study_results = models.CharField(max_length=1000, blank=True, null=True)
+    conditions = models.CharField(max_length=1000, blank=True, null=True)
+    interventions = models.CharField(max_length=2500, blank=True, null=True)
+    sponsor_collaborators = models.CharField(db_column='sponsor/collaborators', max_length=2500, blank=True, null=True)  # Field renamed to remove unsuitable characters.
+    gender = models.CharField(max_length=25, blank=True, null=True)
+    age = models.CharField(max_length=250, blank=True, null=True)
+    phases = models.CharField(max_length=2500, blank=True, null=True)
+    enrollment_no = models.SmallIntegerField(blank=True, null=True)
+    funded_by = models.CharField(max_length=1000, blank=True, null=True)
+    study_type = models.CharField(max_length=2500, blank=True, null=True)
+    study_design = models.CharField(max_length=2500, blank=True, null=True)
+    other_ids = models.CharField(max_length=25, blank=True, null=True)
+    first_received = models.CharField(max_length=25, blank=True, null=True)
+    start_date = models.CharField(max_length=25, blank=True, null=True)
+    completion_date = models.CharField(max_length=25, blank=True, null=True)
+    last_update = models.CharField(max_length=25, blank=True, null=True)
+    last_verified = models.CharField(max_length=25, blank=True, null=True)
+    acronym = models.CharField(max_length=25, blank=True, null=True)
+    results_first_received = models.CharField(max_length=2500, blank=True, null=True)
+    primary_compl_date = models.CharField(max_length=25, blank=True, null=True)
+    outcome_measures = models.TextField(blank=True, null=True)
+    url = models.CharField(max_length=1000, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'clin_trials'
+
+
+class CompanyDataTicker(models.Model):
+    symbol = models.CharField(max_length=25, blank=True, null=True)
+    co_name = models.CharField(max_length=250, blank=True, null=True)
+    markert_cap = models.CharField(max_length=25, blank=True, null=True)
+    sector = models.CharField(max_length=250, blank=True, null=True)
+    industry = models.CharField(max_length=250, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'company_data_ticker'
 
 
 class DjangoAdminLog(models.Model):
@@ -161,16 +282,52 @@ class DjangoSession(models.Model):
         db_table = 'django_session'
 
 
+class DomainsUniversities(models.Model):
+    alpha_two_code = models.CharField(max_length=32767, blank=True, null=True)
+    country = models.CharField(max_length=32767, blank=True, null=True)
+    domain = models.CharField(max_length=32767, blank=True, null=True)
+    name = models.CharField(max_length=32767, blank=True, null=True)
+    web_page = models.CharField(max_length=32767, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'domains_universities'
+
+
+class FacetsWex(models.Model):
+    file = models.CharField(max_length=100, blank=True, null=True)
+    title = models.CharField(max_length=500, blank=True, null=True)
+    city_state = models.CharField(max_length=2000, blank=True, null=True)
+    gene_technique = models.CharField(max_length=2000, blank=True, null=True)
+    gene_tools = models.CharField(max_length=250, blank=True, null=True)
+    authors = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'facets_wex'
+
+
 class Fortune1000(models.Model):
     rank = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
     co_name = models.CharField(max_length=250, blank=True, null=True)
     city = models.CharField(max_length=250, blank=True, null=True)
     state = models.CharField(max_length=25, blank=True, null=True)
     zip = models.CharField(max_length=50, blank=True, null=True)
+    url = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'fortune1000'
+
+
+class GenomicsCo(models.Model):
+    co_name = models.CharField(max_length=250, blank=True, null=True)
+    url = models.CharField(max_length=250, blank=True, null=True)
+    description = models.CharField(max_length=2500, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'genomics_co'
 
 
 class HealthcareCo(models.Model):
@@ -190,24 +347,95 @@ class HealthcareCo(models.Model):
     sic_code = models.CharField(max_length=250, blank=True, null=True)
     hq = models.CharField(max_length=25, blank=True, null=True)
     sales = models.DecimalField(max_digits=25, decimal_places=0, blank=True, null=True)
+    state_id = models.IntegerField(blank=True, null=True)
+    city_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'healthcare_co'
 
 
-class HealthcareTruth(models.Model):
-    name = models.CharField(max_length=250, blank=True, null=True)
-    city = models.CharField(max_length=100, blank=True, null=True)
-    state = models.CharField(max_length=30, blank=True, null=True)
-    genetic_testing = models.CharField(max_length=25, blank=True, null=True)
-    url = models.CharField(max_length=25, blank=True, null=True)
-    population = models.CharField(max_length=25, blank=True, null=True)
-    tools_used = models.CharField(max_length=25, blank=True, null=True)
+class HospitalsSurveyratingUsa(models.Model):
+    provider_id = models.CharField(db_column='Provider ID', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    hospital_name = models.CharField(db_column='Hospital Name', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    address = models.CharField(db_column='Address', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    city = models.CharField(db_column='City', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    state = models.CharField(db_column='State', max_length=32767, blank=True, null=True)  # Field name made lowercase.
+    zip_code = models.CharField(db_column='ZIP Code', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    county_name = models.CharField(db_column='County Name', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    phone_number = models.CharField(db_column='Phone Number', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    hospital_type = models.CharField(db_column='Hospital Type', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    hospital_ownership = models.CharField(db_column='Hospital Ownership', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    emergency_services = models.CharField(db_column='Emergency Services', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    meets_criteria_for_meaningful_use_of_ehrs = models.CharField(db_column='Meets criteria for meaningful use of EHRs', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    hospital_overall_rating = models.CharField(db_column='Hospital overall rating', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    hospital_overall_rating_footnote = models.CharField(db_column='Hospital overall rating footnote', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    mortality_national_comparison = models.CharField(db_column='Mortality national comparison', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    mortality_national_comparison_footnote = models.CharField(db_column='Mortality national comparison footnote', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    safety_of_care_national_comparison = models.CharField(db_column='Safety of care national comparison', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    safety_of_care_national_comparison_footnote = models.CharField(db_column='Safety of care national comparison footnote', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    readmission_national_comparison = models.CharField(db_column='Readmission national comparison', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    readmission_national_comparison_footnote = models.CharField(db_column='Readmission national comparison footnote', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    patient_experience_national_comparison = models.CharField(db_column='Patient experience national comparison', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    patient_experience_national_comparison_footnote = models.CharField(db_column='Patient experience national comparison footnote', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    effectiveness_of_care_national_comparison = models.CharField(db_column='Effectiveness of care national comparison', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    effectiveness_of_care_national_comparison_footnote = models.CharField(db_column='Effectiveness of care national comparison footnote', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    timeliness_of_care_national_comparison = models.CharField(db_column='Timeliness of care national comparison', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    timeliness_of_care_national_comparison_footnote = models.CharField(db_column='Timeliness of care national comparison footnote', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    efficient_use_of_medical_imaging_national_comparison = models.CharField(db_column='Efficient use of medical imaging national comparison', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    efficient_use_of_medical_imaging_national_comparison_footnote = models.CharField(db_column='Efficient use of medical imaging national comparison footnote', max_length=32767, blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    beds = models.CharField(max_length=32767, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'healthcare_truth'
+        db_table = 'hospitals_surveyrating_usa'
+
+
+class HospitalsUsa(models.Model):
+    x = models.CharField(max_length=32767, blank=True, null=True)
+    y = models.CharField(max_length=32767, blank=True, null=True)
+    fid = models.CharField(max_length=32767, blank=True, null=True)
+    id = models.CharField(max_length=32767, blank=True, null=True)
+    name = models.CharField(max_length=32767, blank=True, null=True)
+    address = models.CharField(max_length=32767, blank=True, null=True)
+    address2 = models.CharField(max_length=32767, blank=True, null=True)
+    city = models.CharField(max_length=32767, blank=True, null=True)
+    state = models.CharField(max_length=32767, blank=True, null=True)
+    zip = models.CharField(max_length=32767, blank=True, null=True)
+    zip4 = models.CharField(max_length=32767, blank=True, null=True)
+    telephone = models.CharField(max_length=32767, blank=True, null=True)
+    type = models.CharField(max_length=32767, blank=True, null=True)
+    status = models.CharField(max_length=32767, blank=True, null=True)
+    population = models.IntegerField(blank=True, null=True)
+    county = models.CharField(max_length=32767, blank=True, null=True)
+    countyfips = models.CharField(max_length=32767, blank=True, null=True)
+    country = models.CharField(max_length=32767, blank=True, null=True)
+    latitude = models.CharField(max_length=32767, blank=True, null=True)
+    longtitude = models.CharField(max_length=32767, blank=True, null=True)
+    naics_code = models.CharField(max_length=32767, blank=True, null=True)
+    naics_desc = models.CharField(max_length=32767, blank=True, null=True)
+    source = models.CharField(max_length=32767, blank=True, null=True)
+    source_dat = models.CharField(max_length=32767, blank=True, null=True)
+    val_method = models.CharField(max_length=32767, blank=True, null=True)
+    val_date = models.CharField(max_length=32767, blank=True, null=True)
+    website = models.CharField(max_length=32767, blank=True, null=True)
+    state_id = models.CharField(max_length=32767, blank=True, null=True)
+    alt_name = models.CharField(max_length=32767, blank=True, null=True)
+    st_fips = models.CharField(max_length=32767, blank=True, null=True)
+    owner = models.CharField(max_length=32767, blank=True, null=True)
+    ttl_staff = models.CharField(max_length=32767, blank=True, null=True)
+    beds = models.IntegerField(blank=True, null=True)
+    trauma = models.CharField(max_length=32767, blank=True, null=True)
+    helipad = models.CharField(max_length=32767, blank=True, null=True)
+    date_created = models.CharField(max_length=32767, blank=True, null=True)
+    bed_score = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    score = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    cbpscore = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    populationscore = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'hospitals_usa'
 
 
 class IbmTruth(models.Model):
@@ -232,10 +460,23 @@ class IbmTruth(models.Model):
     duns_parent = models.CharField(max_length=25, blank=True, null=True)
     twitter_link = models.CharField(max_length=250, blank=True, null=True)
     linkedin = models.CharField(max_length=250, blank=True, null=True)
+    state_id = models.IntegerField(blank=True, null=True)
+    city_id = models.IntegerField(blank=True, null=True)
+    symbol = models.CharField(max_length=25, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'ibm_truth'
+
+
+class Keywords(models.Model):
+    id = models.IntegerField(blank=True, null=True)
+    descriptor = models.CharField(max_length=500, blank=True, null=True)
+    value = models.TextField(blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'keywords'
 
 
 class Lex2(models.Model):
@@ -288,25 +529,22 @@ class MedDevice(models.Model):
     sic_code = models.CharField(max_length=250, blank=True, null=True)
     hq = models.CharField(max_length=25, blank=True, null=True)
     sales = models.DecimalField(max_digits=25, decimal_places=0, blank=True, null=True)
+    city_id = models.IntegerField(blank=True, null=True)
+    state_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'med_device'
 
 
-class NamedCompanies(models.Model):
-    ticker = models.CharField(max_length=25, blank=True, null=True)
-    co_name = models.CharField(max_length=300, blank=True, null=True)
-    last_sale = models.CharField(max_length=25, blank=True, null=True)
-    market_cap = models.CharField(max_length=25, blank=True, null=True)
-    ipo_year = models.CharField(max_length=25, blank=True, null=True)
-    sector = models.CharField(max_length=1000, blank=True, null=True)
-    industry = models.CharField(max_length=1000, blank=True, null=True)
-    summary_quote = models.CharField(max_length=500, blank=True, null=True)
+class NamedEntity(models.Model):
+    id = models.IntegerField(blank=True, null=True)
+    descriptor = models.CharField(max_length=250, blank=True, null=True)
+    value = models.CharField(max_length=1000, blank=True, null=True)
 
     class Meta:
         managed = False
-        db_table = 'named_companies'
+        db_table = 'named_entity'
 
 
 class NsfawardsAuthors(models.Model):
@@ -315,6 +553,7 @@ class NsfawardsAuthors(models.Model):
     last_name = models.CharField(max_length=25, blank=True, null=True)
     email = models.CharField(max_length=50, blank=True, null=True)
     author_role = models.CharField(max_length=50, blank=True, null=True)
+    author_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
@@ -336,12 +575,17 @@ class NsfawardsTest1(models.Model):
     award_id = models.IntegerField(primary_key=True)
     institution_name = models.CharField(max_length=70, blank=True, null=True)
     institution_city = models.CharField(max_length=30, blank=True, null=True)
-    institution_zipcode = models.BigIntegerField(blank=True, null=True)
+    institution_zipcode = models.CharField(max_length=10, blank=True, null=True)
     institution_phone_number = models.BigIntegerField(blank=True, null=True)
     institution_street_address = models.CharField(max_length=50, blank=True, null=True)
     institution_country = models.CharField(max_length=25, blank=True, null=True)
     institution_state = models.CharField(max_length=20, blank=True, null=True)
     institution_state_code = models.CharField(max_length=2, blank=True, null=True)
+    state_id = models.IntegerField(blank=True, null=True)
+    city_id = models.IntegerField(blank=True, null=True)
+    mesh_terms = models.CharField(max_length=2000, blank=True, null=True)
+    gene_tools = models.CharField(max_length=500, blank=True, null=True)
+    gene_techniques = models.CharField(max_length=2000, blank=True, null=True)
 
     class Meta:
         managed = False
@@ -365,26 +609,12 @@ class Pharma(models.Model):
     sic_code = models.CharField(max_length=350, blank=True, null=True)
     hq = models.CharField(max_length=25, blank=True, null=True)
     sales = models.DecimalField(max_digits=250, decimal_places=0, blank=True, null=True)
+    city_id = models.IntegerField(blank=True, null=True)
+    state_id = models.IntegerField(blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'pharma'
-
-
-class Pubmed2(models.Model):
-    record = models.IntegerField(blank=True, null=True)
-    author = models.CharField(max_length=25, blank=True, null=True)
-    address = models.CharField(max_length=1000, blank=True, null=True)
-    department = models.CharField(max_length=250, blank=True, null=True)
-    institution = models.CharField(max_length=1000, blank=True, null=True)
-    city = models.CharField(max_length=250, blank=True, null=True)
-    state = models.CharField(max_length=100, blank=True, null=True)
-    country = models.CharField(max_length=25, blank=True, null=True)
-    tools_used = models.CharField(max_length=25, blank=True, null=True)
-
-    class Meta:
-        managed = False
-        db_table = 'pubmed2'
 
 
 class PubmedidTitles(models.Model):
@@ -397,6 +627,17 @@ class PubmedidTitles(models.Model):
         db_table = 'pubmedid_titles'
 
 
+class ResearchAuthorTruth(models.Model):
+    first_name = models.CharField(max_length=50, blank=True, null=True)
+    last_name = models.CharField(max_length=50, blank=True, null=True)
+    email = models.CharField(max_length=50, blank=True, null=True)
+    university_name = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'research_author_truth'
+
+
 class Sales(models.Model):
     co_name = models.CharField(max_length=250, blank=True, null=True)
     sales = models.DecimalField(max_digits=25, decimal_places=0, blank=True, null=True)
@@ -404,6 +645,18 @@ class Sales(models.Model):
     class Meta:
         managed = False
         db_table = 'sales'
+
+
+class SecForms2016(models.Model):
+    form_type = models.CharField(max_length=100, blank=True, null=True)
+    co_name = models.CharField(max_length=500, blank=True, null=True)
+    cik = models.CharField(max_length=25, blank=True, null=True)
+    date_filed = models.CharField(max_length=100, blank=True, null=True)
+    file_name = models.CharField(max_length=500, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'sec_forms_2016'
 
 
 class SecIndex(models.Model):
@@ -418,6 +671,16 @@ class SecIndex(models.Model):
         db_table = 'sec_index'
 
 
+class StatesUsa(models.Model):
+    id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=50, blank=True, null=True)
+    code = models.CharField(max_length=2, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'states_usa'
+
+
 class Test(models.Model):
     co_name = models.CharField(max_length=500, blank=True, null=True)
     url = models.CharField(max_length=250, blank=True, null=True)
@@ -427,9 +690,41 @@ class Test(models.Model):
         db_table = 'test'
 
 
+class TestTrgm(models.Model):
+    text = models.CharField(max_length=25, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'test_trgm'
+
+
 class TrunkList(models.Model):
     co_name = models.CharField(max_length=250, blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'trunk_list'
+
+
+class WexDataii(models.Model):
+    id = models.IntegerField(blank=True, null=True)
+    uri = models.CharField(max_length=100, blank=True, null=True)
+    city = models.CharField(max_length=500, blank=True, null=True)
+    company_location = models.CharField(max_length=2000, blank=True, null=True)
+    company_name = models.CharField(max_length=500, blank=True, null=True)
+    email3 = models.CharField(max_length=2000, blank=True, null=True)
+    email4 = models.CharField(max_length=1000, blank=True, null=True)
+    gene_techniques = models.CharField(max_length=100, blank=True, null=True)
+    gene_tools = models.CharField(max_length=25, blank=True, null=True)
+    money = models.CharField(max_length=100, blank=True, null=True)
+    name_initial_name = models.CharField(max_length=2000, blank=True, null=True)
+    name_name = models.CharField(max_length=1000, blank=True, null=True)
+    named_companies = models.CharField(max_length=50, blank=True, null=True)
+    state = models.CharField(max_length=250, blank=True, null=True)
+    title = models.CharField(max_length=25, blank=True, null=True)
+    date = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+    date_facet_id = models.DecimalField(max_digits=65535, decimal_places=65535, blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'wex_dataII'

@@ -9,7 +9,7 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Query Database of NSF Grants</title>
+    <title>{{ h.name }}</title>
 
     <!-- Bootstrap core CSS -->
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
@@ -44,65 +44,67 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" >IBM Genomics</a>
+          <a class="navbar-brand active" >IBM Genomics</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a href="/viewone/">Home</a></li>
-	    <li><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>
+            <li><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>
 	    <li><a href="/viewone/searchpubmed/">Authors (PubMed)</a></li>            
-            <li class="active"><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li>
-	    <li><a href="/viewone/searchhospitals/">Hospitals</a><li>
-          </ul>
+            <li><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li>
+            <li class="active"><a href="/viewone/searchhospitals/">Hospitals</a><li>  
+	 </ul>
           
         </div><!--/.nav-collapse -->
       </div>
     </nav>
 
-      <!-- Main component for a primary marketing message or call to action -->
-<form id="search" action="/viewone/searchnsfawards/" method="POST">
-  {% csrf_token %}
-<table style="border-collapse: separate;border-spacing: 0 .25em; padding-left: 2cm;">
-{{ form.as_table }}
-</table>
-{% if flag %}
-<input style="margin-left: 2cm;" type="submit" class="btn btn-primary" value="Update Search (Scroll down for results)" id="search" />
-{% else %}
-<input style="margin-left: 2cm;" type="submit" class="btn btn-primary" value="Search" id="search" />
-{% endif %}
-</form>
 
-<p></p>
-{% if flag %}
-	{% if search_results %}
-	        <button style="margin-left: 2cm;" onclick="myFunction()">Print this page</button></li>
-                <script>
-                function myFunction() {
-                    window.print();
-                }
-                </script>
-		<table class="table table-hover" style="width: auto;margin-right: 2 cm;margin-left: 2cm;word-wrap: break-word;">
-    			<tr>
-        			<th>NSF Award#</th>
-        			<th>Award Title</th>
-        			<th>Award Amount to Date</th>
-        			<th>Start Date</th>
-				<th>End Date</th>
-			</tr>
-			{% for item in search_results %}
-    			<tr>
-       			        <td>{{ item.award_id }}</td>
-        			<td><a href="/viewone/{{item.award_id}}/nsfawards/" target="_blank">{{ item.award_title }}</a></td>
-        			<td>${{ item.award_amount }}</td>
-			        <td>{{ item.award_start_date }}</td>
-				<td>{{ item.award_end_date }}</td>
-			</tr>					
-			{% endfor %}	
-		</table>
-	{% else %}
-		<p style="margin-left: 2cm"> No rows match your search.</p>	
-	{% endif %}
-{% endif %}
+    <div class="container">
+
+      <!-- Main component for a primary marketing message or call to action -->
+      <div class="jumbotron">
+      <h2 style="margin-bottom: 2px;text-align: left;">{{ h.name }}</h2>
+      <p style="text-align: left">{{ h.city }}, {{ h.state }}</p>
+      <ul style="list-style: none;font-size:14px;">
+            <li>Hospital Score<sup>*</sup> :<b> {{ h.score }}</b></li>
+            <li>Number of Beds: {{ h.beds }}</li>
+            <li>HQ Complete Address: {{ h.address }}, {{ h.city }}, {{h.state }} {{ h.zip }}</li>
+      </ul>
+       <ul style="list-style: none;font-size:14px;">
+            <li><h4 style="margin-bottom:2px;">Classification</h4></li>
+            <li>Type of Hospital: {{ h.type }}</li>
+            <li>Trauma Center Level: {{ h.trauma }}</li>
+	    <li>NAICS Description: {{ h.naics_desc }}</li>
+	    <li>Ownership: {{ h.owner }}</li>
+    </ul>
+    <ul style="list-style: none;font-size:14px;">
+            <li><h4 style="margin-bottom:2px;">Contact Information</h4></li>
+            <li>Phone: {{ h.telephone }}</li>
+            <li>Website: {{ h.website }}</li>
+    </ul> 
+    <ul style="list-style: none;font-size:14px;">
+<li><button onclick="myFunction()">Print this page</button></li>
+</ul>
+<script>
+function myFunction() {
+    window.print();
+}
+</script>
+    <ul style="list-style: none;font-size:12px;">
+	<li><br> </li>
+	<li><sup>*</sup>Hospital score was calculated based on size of hospital and population and business patterns of area.</li>
+    </ul> 
+<script>
+function myFunction() {
+    window.print();
+}
+</script>
+      </div>
+
+   </div><!-- /container -->
+
+
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

@@ -2,7 +2,7 @@ from django import forms
 class QueryForm(forms.Form):
     co_name = forms.CharField(label='Company name', max_length=100, required=False)
     city = forms.CharField(label='City', max_length=50, required=False)
-    state = forms.CharField(label='State', max_length=50, required=False)
+    state = forms.CharField(label='State (Example-North Carolina)', max_length=50, required=False)
     zip = forms.CharField(label='ZipCode', max_length=15, required=False)
     sic_code = forms.CharField(label='SIC Code', max_length=100, required=False)
     pub_priv = forms.CharField(label='Public or Private', max_length=50, required=False)
@@ -35,7 +35,21 @@ class SearchNsfawards(forms.Form):
     upper_end_date = forms.CharField(label='End Date (yyyy-mm-dd) <= ', max_length=10, min_length=10, required=False)
     inst_name = forms.CharField(label='Name of Sponsoring Institution', max_length=100, required=False)
     inst_city = forms.CharField(label='Institution - City', max_length=50, required=False)
-    inst_state = forms.CharField(label='Institution - State', max_length=50, required=False)
+    inst_state = forms.CharField(label='Institution - State (Example-North Carolina)', max_length=50, required=False)
     mesh_terms = forms.CharField(label='MeSH Terms', max_length=100, required=False) 
     gene_tools = forms.CharField(label='Gene Tools', max_length=50, required=False)
     gene_techniques = forms.CharField(label='Gene Techniques', max_length=50, required=False)
+
+class SearchHospitals(forms.Form):
+    name = forms.CharField(label='Hospital Name', max_length=100, required=False)
+    city = forms.CharField(label='City', max_length=50, required=False)
+    county = forms.CharField(label='County', max_length=50, required=False)
+    state = forms.CharField(label='State (Example-NC)', max_length=50, required=False)
+    zipcode = forms.CharField(label='ZipCode', max_length=15, required=False)
+    desc  = forms.CharField(label='Type of Hospital', max_length=50, required=False) 
+    owner = forms.CharField(label='Type of Owner', max_length=50, required=False)
+    trauma = forms.CharField(label='Trauma Centre Level (Roman Numerals)' ,  max_length=50, required=False)
+    min_beds = forms.IntegerField(label='Min no. of beds', required=False) 
+    #max_beds = forms.IntegerField(label='Max no. of beds', required=False)
+    score = forms.DecimalField(label='Min Hospital Score (Scale of 100)', required=False)
+

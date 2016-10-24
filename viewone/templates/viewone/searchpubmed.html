@@ -52,7 +52,8 @@
 	    <li><a href="/viewone/searchcompany/">Companies (Genomics)</a></li>
 	    <li class="active"><a href="/viewone/searchpubmed/">Authors (PubMed)</a></li>            
             <li><a href="/viewone/searchnsfawards/">Investigators (NSF Grants)</a></li> 
-	 </ul>
+	    <li><a href="/viewone/searchhospitals/">Hospitals</a><li> 
+	</ul>
           
         </div><!--/.nav-collapse -->
       </div>
@@ -74,6 +75,12 @@
 <p></p>
 {% if flag %}
 	{% if search_results %}
+		<button style="margin-left: 2cm;" onclick="myFunction()">Print this page</button></li>
+                <script>
+                function myFunction() {
+                    window.print();
+                }
+                </script>
 		<table class="table table-hover" style="width: 100%;margin-right: 2 cm;margin-left: 2cm; table-layout: fixed;word-wrap: break-word;">
     			<tr>
         			<th>PMID</th>
